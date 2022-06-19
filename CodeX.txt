@@ -1,0 +1,1095 @@
+Screen1
+Put Button
+Select - Set(varVisible,true)
+
+btnSubmit
+Put TextInput
+
+Put Shape Rectangle
+Fill - RGBA(150, 150, 150, 0.9)
+Rectangle_PopUp
+Visible - varVisible
+
+Put Button
+btnOK
+Visible - Rectangle_PopUp.Visible
+btnCancel
+Visible - Rectangle_PopUp.Visible
+
+Create Screen2
+btnCancel - select
+Set(varVisible,false)
+
+
+btnOK - select
+Set(varVisible,false);
+Navigate(Screen2);
+
+Put Label
+lblMessage
+Visible - Rectangle_PopUp.Visible
+Text - "Do you want to Continue?"
+
+
+Put Rectangle
+Rectangle_Border
+BorderColor - RGBA(0, 0, 0, 1)
+Visible - Rectangle_PopUp.Visible
+BorderThickness - 2
+
+Right Click btnOk -Reorder - Bring To Front
+Right Click btnCancel -Reorder - Bring To Front
+
+
+
+Put Container
+Fill - RGBA(150, 150, 150, 0.6)
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+Container
+
+
+
+PopUp COntainer
+
+Screen1
+Put TextInput
+TextInput_Name
+Put Button
+btnSubmit
+
+Put 
+Container
+Container_PopUp
+Fill - RGBA(150, 150, 150, 0.9)
+BorderThickness - 3
+Visible - varVisible
+
+Put on Container following
+btnOK
+btnCancel
+Put Label
+lblMessage
+Text - "Do you want to Continue?"
+
+
+btnSubmit
+Select
+Set(varVisible, true);
+
+Create Screen2
+Put Button Back
+Navigate(Screen1)
+
+
+
+btnOK - select
+Set(varVisible,false);
+Navigate(Screen2);
+
+btnCancel
+Set(varVisible,false)
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+
+Validation
+
+
+Put Text Input
+
+Icon
+Color Red
+
+Put Button Submit
+OnSelect
+UpdateContext({  varVisible:  If(IsBlank(TextInput1.Text), true,false) }); 
+
+Put Reset Button
+Reset(TextInput1);
+UpdateContext({  varVisible: false });
+
+
+
+Label
+
+Put Label1
+Text - TextInput1 cannot be blank
+Color - Red
+Visible - varShowLabel
+
+Validation
+
+
+Fill
+
+If(IsBlank(TextInput1.Text), RGBA(255,0, 0, 1), RGBA(255, 255, 255, 1))
+Submit OnSelect
+UpdateContext({ varButtonClicked: true}); 
+On Reset
+UpdateContext({ varButtonClicked: false}); 
+Fill
+If(varButtonClicked=true && IsBlank(TextInput1.Text), RGBA(255,0, 0, 1), RGBA(255, 255, 255, 1))
+
+
+
+
+Reset Button Final
+Reset(TextInput1);
+UpdateContext({  varVisible: false }); 
+UpdateContext({  varShowLabel: false });
+
+
+Number
+
+Put TextInput
+TextInput_Age
+
+Put Label
+Color Red
+Text - Age Cannot be less than 18
+Visible - varShowAgeLabel
+Submit
+OnSelect
+UpdateContext( {varShowAgeLabel: If(Value(TextInput_Age.Text) < 18, true,false)} );
+
+Reset
+Reset(TextInput_Age);
+UpdateContext( {varShowAgeLabel: false} );
+
+
+
+Validate Email
+
+Insert TextInput - TextInput_Email
+Insert Label     - Label_Email
+Text - "Enter valid email address"
+Color - Red
+Visible - varShowEmailLabel
+
+Submit
+OnSelect
+UpdateContext( {varShowEmailLabel: If(IsMatch(TextInput_Email.Text, Match.Email) , false,true)} );
+
+Reset
+Reset(TextInput_Email);
+UpdateContext( {varShowEmailLabel: false} );
+
+Date 
+
+Insert 
+Input
+Date Picker
+Name it DatePicker_StartDate
+
+Insert Label
+Label_StartDate
+"Start Date cannot be in past"
+Color - Red
+Visible - varShowStartDateLabel
+
+Submit
+OnSelect
+UpdateContext( {varShowStartDateLabel: If(DatePicker_StartDate < Today() , true,false)} );
+
+Reset
+Reset(DatePicker_StartDate);
+UpdateContext( {varShowStartDateLabel: false} );
+
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+//No error
+If(IsBlank( 100/2),Notify("Error"),Notify("No Error"));
+//Error
+If(IsBlank(""),Notify("Error"),Notify("No Error"));
+
+
+Insert TextInput
+Remove the Text
+If(IsBlank(TextInput1.Text),Notify("First Name Cannot be blank"),Notify("First Name is ok"));
+
+
+
+Dropdown
+
+
+
+
+
+Create List
+
+ListCountry
+Title
+Country
+(Make sure Title is Not Required Field)
+USA
+Canada
+India
+
+ListState
+Title
+Country
+State
+
+USA	NY
+USA	CA
+
+Canada	ON
+Canada	BC
+
+India	MH
+India	AP
+
+Add Data Connection
+
+Select SharePoint
+Select the Site
+Select Both above List
+
+Insert
+Input
+DropDown
+Items - ListCountry
+Value - Country
+
+Items - Distinct( ListCountry,Country)
+
+
+
+Insert
+Input
+DropDown
+
+Items - Filter(ListState,Country = Dropdown1.Selected.Result)
+
+From Right Pane
+Properties
+Chose Value - State
+
+
+
+ListCities
+Title (Make it Not Required)
+State
+City
+
+
+NY	New York
+NY	Buffalo
+CA	San Francisco
+CA	Los Angeles
+ON	Toronto
+ON	Niagara Falls
+MH	Mumbai
+MH	Pune
+
+Add it to Data Connection
+
+
+Insert
+Input
+DropDown
+
+Items - Filter(ListCities,State = Dropdown2.Selected.State)
+
+From Right Pane
+Properties
+Chose Value - City
+
+
+
+
+
+Use List
+StudentScore
+Title - SIngle Line of Text
+Score - Number
+DateOfBirth - Date and Time
+Country - Single Line of Text
+CityOfEmployee  - Single Line of Text
+
+From Left Menu
+Create
+Start From Data
+SharePoint
+
+
+Edit Screen
+Click Country_DataCard2
+From Properties
+Advanced
+Unlock
+Delete the TextInput - DataCardValue9
+
+Insert Dropdown under Country_DataCard2
+
+
+Add Data Connection
+select ListCountry
+
+For  Dropdown items
+Distinct( ListCountry,Country)
+
+
+For Update of DataCard
+Dropdown1.Selected.Result
+
+
+Change
+DataCardValue9.Y + DataCardValue9.Height
+to
+Dropdown1.Y + Dropdown1.Height
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+Pen Input Image Send as Attachment
+
+
+Connections
+Add Office 365 Outlook
+
+
+click
+Insert
+click
+Input
+select Pen Input
+Name it PenInput1
+
+Insert Button
+OnSelect
+
+Office365Outlook.SendEmailV2("aalum@atcmumbai.onmicrosoft.com","Subject","Body", {Attachments:Table({Name:"AttachedFile.jpg",ContentBytes:PenInput1.Image , '@odata.type':""})})
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Create App
+App_IncrementDecrement
+Insert Label
+Delete Default Text
+
+Put Button
+Intitialize
+Select
+UpdateContext({i:1});
+
+Put icon UpArrow
+Select
+UpdateContext({i:i+1});
+
+Put icon Down Arrow
+Select
+UpdateContext({i:i-1});
+
+Label
+Text
+i
+
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+Media
+Add
+Flower1 - Flower4
+
+Insert
+Media
+Image
+
+Put Button
+Name it Initialize
+
+ClearCollect(CollImages, 
+{ImageID:1, Image:Flower1},
+{ImageID:2, Image:Flower2},
+{ImageID:3, Image:Flower3},
+{ImageID:4, Image:Flower4}
+);
+
+UpdateContext({currentIndex:1});
+
+Image -
+LookUp(CollImages,ImageID=currentIndex,Image)
+
+Put icon Right
+
+>
+Select
+If(currentIndex<4, UpdateContext({currentIndex:currentIndex+1}) );
+
+<
+If(currentIndex>1, UpdateContext({currentIndex:currentIndex-1}) );
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+
+Go To Site
+https://atcmumbai.sharepoint.com/
+Click Site Contents
+Pick List StudentScore
+From Top Menu
+Integrate
+Power Apps
+Customize Forms
+Sign In to Power Apps
+
+Attachments Card
+Advanced
+Unlock
+Make the Control Under it Small
+
+Click Screen
+Put Button
+Data
+Add
+Office 365 Outlook
+Office365Outlook.SendEmailV2(
+    "aalum@atcmumbai.onmicrosoft.com",
+    "Score Of " & Title_DataCard1.Default, 
+   "Name : " & Text(Title_DataCard1.Default) & "<BR>" &
+   "Score : " & Text(Score_DataCard1.Default) & "<BR>" &
+   "Date Of Birth : " & Text(DateOfBirth_DataCard1.Default) & "<BR>" 
+
+   );
+
+Add Fields
+LinkToTheItem
+
+
+Office365Outlook.SendEmailV2(
+    "aalum@atcmumbai.onmicrosoft.com",
+    "Score Of " & Title_DataCard1.Default, 
+   "Name : " & Text(Title_DataCard1.Default) & "<BR>" &
+   "Score : " & Text(Score_DataCard1.Default) & "<BR>" &
+   "Date Of Birth : " & Text(DateOfBirth_DataCard1.Default) & "<BR>"  &
+   "Link To Item : " & Text('Link to item_DataCard1'.Default) & " <BR>"  
+
+   );
+
+
+Save
+Publish To SharePoint
+
+On SharePoint
+Ctrl + F5
+Edit Item
+
+To Undo
+List Settings
+Form Settings
+Check - Use the default SharePoint form
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Put Button
+Initialize
+
+
+UpdateContext
+({
+    varTable : Table
+(
+    {ID:"1", FirstName:"Intekhab", LastName:"Shaikh"}, 
+    {ID:"2", FirstName:"John", LastName:"Smith"} 
+)
+
+
+});
+Put Gallery
+Set  Items to
+varTable
+Change the Label Data
+from
+ThisItem.SampleText
+to
+ThisItem.FirstName
+ThisItem.LastName
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+Put a Gallery
+
+Set its items property to
+
+Table
+(
+    {ID:"1", FirstName:"Intekhab", LastName:"Shaikh"}, 
+    {ID:"2", FirstName:"John", LastName:"Smith"} 
+)
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+Start Power Apps
+
+From Left
+
+Click Apps
+
+Click "Component libraries (preview)"
+
+Create Component Library
+
+Name - TheComponentLibrary
+
+Create the Component
+
+Put Label on it
+
+Save
+
+Go To Screens
+
+Insert Custom
+Component1
+
+Save
+
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+Start Power Apps
+
+From Left
+
+Click Apps
+
+Click "Component libraries (preview)"
+
+Create Component Library
+
+Name - TheComponentLibrary
+
+Create the Component
+
+Save
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+In Screen
+Add the Component
+
+For Component
+New Custom Property
+Display Name - TheTable
+Data Type    - Table
+
+Click the Property TheTable
+In Formula Bar at top
+
+This is Schema
+
+Change it to
+Table(
+    {
+        ID: 1, 
+        FirstName: "Intekhab", 
+        LastName: "Shaikh"
+        }
+
+    )
+
+Insert Gallery
+Items
+Component1.TheTable
+
+On Screen
+Create Two Instance of Component
+Change the Data
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Navigate Screen Using Dropdown and Screen Type
+
+From Left Click Apps
+
+Click Component Libraray
+
+New Component Library
+
+Name - NavigateUsingDropDown
+
+New Custom Property
+Name - DropDownData
+Data Type - Table
+
+Click the Property
+Then click Formula Bar
+
+Table
+(
+    {
+        ScreenText: "NameOfScreen1",
+        Screen:App.ActiveScreen
+    },
+    {
+        ScreenText: "NameOfScreen2",
+        Screen:App.ActiveScreen
+    },
+     {
+        ScreenText: "NameOfScreen3",
+        Screen:App.ActiveScreen
+    }
+)
+
+In Component
+Insert
+Input
+Dropdown
+
+Items - Component1.DropDownData
+
+In Screen1
+At top Put Label
+Text - "This is Screen1"
+
+Insert the Component1
+Dropdown
+OnChange
+Navigate(Dropdown1.Selected.ScreenName)
+
+DropdownData Property of Component on Screen1 change to
+
+Table(
+    {
+        ScreenText: "NameOfScreen1",
+        ScreenName:Screen1
+    },
+    {
+        ScreenText: "NameOfScreen2",
+        ScreenName:Screen2
+    },
+     {
+        ScreenText: "NameOfScreen3",
+        ScreenName:Screen3
+    }
+    )
+
+
+OnChange
+Navigate(Dropdown1.Selected.ScreenName)
+
+Add
+Screen2
+Screen3
+
+
+Screen2 at top Put Label
+Text - "This is Screen2"
+
+Put CustomComponent1 on Screen2
+DropdownData
+Table(
+    {
+        ScreenText: "NameOfScreen1", 
+        ScreenName:Screen1
+    },
+    {
+        ScreenText: "NameOfScreen2", 
+        ScreenName:Screen2
+    },
+     {
+        ScreenText: "NameOfScreen3", 
+        ScreenName:Screen3
+    }
+    )
+
+
+Screen3 at top Put Label
+Text - "This is Screen3"
+
+Put CustomComponent1 on Screen3
+DropdownData
+Table(
+    {
+        ScreenText: "NameOfScreen1", 
+        ScreenName:Screen1
+    },
+    {
+        ScreenText: "NameOfScreen2", 
+        ScreenName:Screen2
+    },
+     {
+        ScreenText: "NameOfScreen3", 
+        ScreenName:Screen3
+    }
+    )
+
+
+
+Put Button
+Put Label
+OnSelect
+Set (varScreen, LookUp( Component1.DropDownData, ScreenText="NameOfScreen1", Screen) );
+
+Label Text varScreen.Name
+
+Default
+LookUp( Component1.DropDownData, Screen=App.ActiveScreen, ScreenText)
+
+This will remember the selection
+
+
+
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Place Vertical Gallery
+
+Items
+Table
+(
+    {ID:1, FirstName:"Intekhab", LastName:"Shaikh"},
+    {ID:2, FirstName:"Tom", LastName:"Burket"},
+    {ID:3, FirstName:"Mike", LastName:"Smith"},
+    {ID:4, FirstName:"Anne", LastName:"McKenzee"}
+)
+
+
+One Coloring Way
+TemplateFill
+RGBA(0,0,255,Mod(ThisItem.ID,2)/2)
+
+
+TemplateFill
+If(
+    Mod(ThisItem.ID,2) = 0,
+    RGBA(0,0,255,0.9),
+    Transparent
+)
+
+Hover Color
+Put a Label
+Expand to full
+Text = ""
+HoverFill - RGBA(255,0,0,0.6)
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+If there is no Column with ID then you can add ID locally
+
+Put Button
+Select
+
+ClearCollect( ColOriginal,  {FirstName:"Intekhab", LastName:"Shaikh"});
+Collect( ColOriginal,  {FirstName:"Tom", LastName:"Burket"});
+Collect( ColOriginal,  {FirstName:"Mike", LastName:"Smith"});
+Collect( ColOriginal,  {FirstName:"Anne", LastName:"McKenzee"});
+
+
+
+Clear(colForColor);
+ForAll(ColOriginal, 
+       Collect(colForColor,
+               Last(FirstN(AddColumns(ColOriginal,
+                                "ID",
+                                CountRows(colForColor)+1
+                           ), 
+                           CountRows(colForColor)+1
+                    )
+               )    
+       )
+);
+
+Place Vertical Gallery
+Data Source - colForColor
+
+TemplateFill - RGBA(0,0,255,Mod(ThisItem.ID,2)/2)
+
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Flyout Menu Step1
+
+
+From Left Click Apps
+
+Click Component Libraray
+
+New Component Library
+
+Name - App_FlyoutMenuStep1
+
+New Custom Property
+Name - MenuData
+Data Type - Table
+
+Click the Property
+Then click Formula Bar
+
+Table
+(
+    {
+	ScreenID:1,
+        ScreenText: "NameOfScreen1",
+	ScreenIcon: Icon.Add,
+        ScreenValue:App.ActiveScreen
+    },
+    {
+        ScreenID:2,
+        ScreenText: "NameOfScreen2",
+	ScreenIcon: Icon.Add,
+        ScreenValue:App.ActiveScreen
+    },
+     {
+        ScreenID:3,
+        ScreenText: "NameOfScreen3",
+	ScreenIcon: Icon.Add,
+        ScreenValue:App.ActiveScreen
+    }
+)
+
+In Component
+Insert
+Gallery - Blank Vertical
+
+Items - Component1.MenuData
+
+Put an Icon
+Icon - ThisItem.ScreenIcon
+
+Put Label
+
+Text - ThisItem.ScreenText
+Icon - Select
+Navigate(ThisItem.ScreenValue,ScreenTransition.Cover);
+
+
+In Screen1
+At top Put Label
+Text - "This is Screen1"
+
+Insert the Component1
+
+
+DropdownData Property of Component on Screen1 change to
+
+Table
+(
+    {
+	ScreenID:1,
+        ScreenText: "NameOfScreen1",
+	ScreenIcon: Icon.Home,
+        ScreenValue:Screen1
+    },
+    {
+        ScreenID:2,
+        ScreenText: "NameOfScreen2",
+	ScreenIcon: Icon.Bus,
+        ScreenValue:Screen2
+    },
+     {
+        ScreenID:3,
+        ScreenText: "NameOfScreen3",
+	ScreenIcon: Icon.CameraAperture,
+        ScreenValue:Screen3
+    }
+)
+
+
+Add
+Screen2
+Screen3
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Flyout Menu , Hamburger Menu with Show/Hide
+
+In Component
+Insert icon Hamburger Menu
+
+OnSelect
+Set( ShowGallery,!ShowGallery);
+
+The Gallery
+Property
+
+Visible - ShowGallery
+
+Add Control Property
+
+PropertyShowGallery
+Boolean
+Default false
+Check Raise OnReset event when value changes
+
+Select COmponent
+OnReset
+Set(ShowGallery, 'Component1'.PropertyShowGallery)
+
+For Control Change PropertyShowGallery - true
+
+We will Copy and Paste the COntrol from Screen1 to Screen2 and Screen3
+
+Screen2
+PropertyShowGallery - false
+Screen3
+PropertyShowGallery - true
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Component
+
+Gallery
+TemplateFill
+If( ThisItem.ScreenValue = App.ActiveScreen, RGBA(0,255,0,0.6), RGBA(0, 0, 0, 0))
+
+
+
+ Button to cover the Template Area
+In Component
+Insert Icon
+Rectangle
+ReOrder
+Bring To Front
+
+Fill - Transparent
+
+OnSelect - Navigate(ThisItem.ScreenValue,ScreenTransition.Cover);
+
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+
+Flyout Menu Use in Other Apps
+
+Create App
+
+TestComponent
+
+Click Hamburger Icon
+
+Click Insert
+
+Click Get More Components
+
+CLick down arrow of
+App_FlyoutMenuStep3
+Click Component1
+click Import
+
+CLick Insert
+Library Components
+CLick COmponent1
+Now Use it
+
+-------------------------------------------------------
+-------------------------------------------------------
+-------------------------------------------------------
+
+Flyout Menu SubMenus
+
+Step4
+
+Right Click 
+
+Copy Gallery1
+
+Come to Rectangle1 and paste it
+
+Change its X to 20
+Width - Add -20 to existing
+
+MenuData
+Table
+(
+    {
+	ScreenID:1,
+    ScreenText: "NameOfScreen1",
+	ScreenIcon: Icon.Add,
+    ScreenValue:App.ActiveScreen,
+    SubMenu: Table({ScreenID:1,ScreenText:"SubMenu1",ScreenIcon:Icon.Add,ScreenValue:App.ActiveScreen})
+    },
+    {
+    ScreenID:2,
+    ScreenText: "NameOfScreen2",
+	ScreenIcon: Icon.Add,
+    ScreenValue:App.ActiveScreen,
+    SubMenu: Table()
+    },
+     {
+    ScreenID:3,
+    ScreenText: "NameOfScreen3",
+	ScreenIcon: Icon.Add,
+    ScreenValue:App.ActiveScreen,
+    SubMenu: Table()
+    }
+)
+
+On Screen
+Table
+(
+    {
+	    ScreenID:1,
+        ScreenText: "NameOfScreen1",
+	    ScreenIcon: Icon.Home,
+        ScreenValue:Screen1,
+        SubMenu: Table({ScreenID:1,ScreenText:"SubMenu1",ScreenIcon:Icon.Add,ScreenValue:Screen4})
+    },
+    {
+        ScreenID:2,
+        ScreenText: "NameOfScreen2",
+	    ScreenIcon: Icon.CameraAperture,
+        ScreenValue:Screen2,
+        SubMenu: Table()
+    },
+     {
+        ScreenID:3,
+        ScreenText: "NameOfScreen3",
+	    ScreenIcon: Icon.Camera,
+        ScreenValue:Screen3,
+        SubMenu: Table()
+    }
+)
+
+
+
+Add Screen4
+
+For SubGallery
+Items
+ThisItem.SubMenu
+
+
+I sent the SubGallery backward for click to work
+
+I Made Rectangle Small upwards
+
+
+
+
+
+
+
